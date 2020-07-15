@@ -290,9 +290,9 @@ def get_defined_machine_types(return_all = False):
 if __name__ == "__main__":
     reply = input("""
 What would you like to do?
-{simulate, get_data, show_price_variation, list_running_workers, show_price_per_mnps, get_defined_machine_types, get_skus, bench}
+{simulate_delta, simulate_cum, get_data, show_price_variation, list_running_workers, show_price_per_mnps, get_defined_machine_types, get_skus, bench}
     """.strip() + " > ").strip().lower()
-    if reply == "simulate":
+    if reply == "simulate_delta" or reply == "simulate_cum":
         pricing_data_files = sorted(glob("pricing_data/*.json"))
         pricing_data_files = [{
             "t": int(x.replace("\\", "/").split(".")[0].split("/")[1]),
@@ -354,7 +354,7 @@ What would you like to do?
             dynascript_costs.append((cur_t, dollars_per_mnps[0]["price"] * n_dynascript_instances / 60))
             cur_t += 60
         
-        if True:
+        if reply == "simulate_delta":
             plt.plot([x[0] / 3600 for x in lichess_costs], [x[1] for x in lichess_costs])
             plt.plot([x[0] / 3600 for x in dynascript_costs], [x[1] for x in dynascript_costs])
         else:
